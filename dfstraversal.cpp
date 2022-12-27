@@ -10,7 +10,7 @@ void dfs(unordered_map<int,set<int>> &adj, unordered_map<int,bool>&visit, int no
         }
     }
 }
-vector<vector<int>> depthFirstSearch(int V, int E, vector<vector<int>> &edges)
+vector<vector<int>> depthFirstSearch(int V, int E, vector<vector<int>> &edges)//vector<vector<int>> is used becayse the graph is assumed to be undirected and disconnected
 {
     unordered_map<int,set<int>> adj;
     unordered_map<int,bool> visit;
