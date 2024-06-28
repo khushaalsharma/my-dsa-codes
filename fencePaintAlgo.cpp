@@ -10,13 +10,15 @@ total = k
 This will make a following table: for all k >= 2;
             n=2            n=3
 same color   k ways        k*k - k ways
-diff color   k*k - k ways  (k-1) - k*k ways
-Total        k*k ways      k**3 - k ways        and so on
+diff color   k*k - k ways  k*k ways
+Total        k*k ways      2*k*k - k ways        and so on
 
 thus 
 total[i] = same[i] + diff[i]
 same[i]  = diff[i-1]
 diff[i]  = total[i-1] * (k-1)
+
+Follow this link to understand: https://www.geeksforgeeks.org/painting-fence-algorithm/
 */
 
 #include <bits/stdc++.h> 
