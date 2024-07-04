@@ -1,3 +1,5 @@
+//for longest palindromic subsequence we have compare the string with its reverse and same approach
+
 class Solution {
 public:
     int longestCommonSubsequence(string text1, string text2) {
