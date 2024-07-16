@@ -1,78 +1,47 @@
+/*
+When the algorithm encounters a digit, it parses the digits as a number and pushes the number onto the stack.
+When the algorithm encounters an operator, it pops two numbers off the stack, performs the operation, and pushes the result back onto the stack.
+When the algorithm encounters a left parenthesis, it pushes the current state of the stack onto a new stack.
+When the algorithm encounters a right parenthesis, it pops the top stack, performs the operations on the numbers on the top of the stack, and pushes the result back onto the stack.
+After iterating over the entire string, the algorithm pops the top number off the stack and returns it as the result of the expression.
+Complexity
+Time complexity: O(S)
+Space complexity: O(S)
+*/
+
+
 class Solution {
-private:
-    int solve(int num1, int num2, char opr) {
-        switch (opr) {
-            case '+': return num1 + num2;
-            case '-': return num1 - num2;
-            case '*': return num1 * num2;
-            case '/': return num1 / num2;
-        }
-        return 0; // Default case, should never be reached
-    }
-
-    int precedence(char opr) {
-        if (opr == '+' || opr == '-') {
-            return 1;
-        } else if (opr == '*' || opr == '/') {
-            return 2;
-        }
-        return 0;
-    }
-
-    void applyOperation(stack<int>& nums, stack<char>& operators) {
-        int b = nums.top();
-        nums.pop();
-        int a = nums.top();
-        nums.pop();
-        char opr = operators.top();
-        operators.pop();
-        nums.push(solve(a, b, opr));
-    }
-
 public:
     int calculate(string s) {
-        stack<int> nums;
-        stack<char> operators;
-        int n = s.length();
-        int num = 0;
-        bool hasNum = false;
+        long long int sum = 0;
+        int sign = 1;
+        stack<pair<int,int>> st;
 
-        for (int i = 0; i < n; ++i) {
-            if (isdigit(s[i])) {
-                num = num * 10 + (s[i] - '0');
-                hasNum = true;
-            } else {
-                if (hasNum) {
-                    nums.push(num);
-                    num = 0;
-                    hasNum = false;
+        for(int i=0; i<s.size();i++){
+            if(isdigit(s[i])){
+                long long int num = 0;
+                while(i<s.size() && isdigit(s[i])){
+                    num = num * 10 + (s[i] - '0');
+                    i++;
                 }
-                if (s[i] == ' ') {
-                    continue;
-                } else if (s[i] == '(') {
-                    operators.push(s[i]);
-                } else if (s[i] == ')') {
-                    while (operators.top() != '(') {
-                        applyOperation(nums, operators);
-                    }
-                    operators.pop(); // Pop the '('
-                } else {
-                    while (!operators.empty() && precedence(operators.top()) >= precedence(s[i])) {
-                        applyOperation(nums, operators);
-                    }
-                    operators.push(s[i]);
-                }
+                i--;
+                sum += num * sign;
+                sign = 1;
+            }
+            else if(s[i] == '('){
+                st.push({sum, sign});
+                sum = 0;
+                sign = 1;
+            }
+            else if(s[i] == ')'){
+                sum = st.top().first + (st.top().second * sum);
+                st.pop();
+
+            }
+            else if(s[i] == '-'){
+                sign = -1 * sign;
             }
         }
-
-        if (hasNum) {
-            nums.push(num);
-        }
-
-        while (!operators.empty()) {
-            applyOperation(nums, operators);
-        }
-
-        return nums.top();
+        return sum;
     }
 };
