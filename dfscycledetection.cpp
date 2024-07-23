@@ -11,7 +11,7 @@ bool dfscycle(unordered_map<int,list<int>>&adj, unordered_map<int,bool> &visit, 
                 return true;
             }
         }
-        else if(dfsvis[i] == true){
+        else if(dfsvis[i] == true){ //node is visited and is in dfs call as well
             return true;
         }
     }
@@ -27,7 +27,7 @@ int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
         adj[src].push_back(dst);
     }
     unordered_map<int,bool> visit;
-    unordered_map<int,bool> dfsvis;
+    unordered_map<int,bool> dfsvis; //this is to keep a track of nodes which are present in the dfs call
     for(int i=1;i<=n;i++){
         if(!visit[i]){
             bool ans = dfscycle(adj,visit,i,dfsvis);
