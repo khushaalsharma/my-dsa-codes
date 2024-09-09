@@ -33,3 +33,64 @@ public:
         return result;
     }
 };
+
+
+//SPIRAL MATRIX IV LEETCODE:
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+class Solution {
+public:
+    vector<vector<int>> spiralMatrix(int m, int n, ListNode* head) {
+        // Create matrix of size m x n initialized to -1
+        vector<vector<int>> matrix(m, vector<int>(n, -1));
+
+        if (head == NULL) {
+            return matrix;  // return matrix if the linked list is empty
+        }
+
+        int r_min = 0, r_max = m - 1, c_min = 0, c_max = n - 1;
+        ListNode* node = head;
+
+        while (r_min <= r_max && c_min <= c_max && node != NULL) {
+            // Fill top row (left to right)
+            for (int c = c_min; c <= c_max && node != NULL; ++c) {
+                matrix[r_min][c] = node->val;
+                node = node->next;
+            }
+            ++r_min;
+
+            // Fill right column (top to bottom)
+            for (int r = r_min; r <= r_max && node != NULL; ++r) {
+                matrix[r][c_max] = node->val;
+                node = node->next;
+            }
+            --c_max;
+
+            // Fill bottom row (right to left)
+            for (int c = c_max; c >= c_min && node != NULL; --c) {
+                matrix[r_max][c] = node->val;
+                node = node->next;
+            }
+            --r_max;
+
+            // Fill left column (bottom to top)
+            for (int r = r_max; r >= r_min && node != NULL; --r) {
+                matrix[r][c_min] = node->val;
+                node = node->next;
+            }
+            ++c_min;
+        }
+
+        return matrix;
+    }
+};
+
