@@ -13,10 +13,7 @@ vector<int> dijkstra(vector<vector<int>> &vec, int vertices, int edges, int sour
         adj[u].push_back(make_pair(v,w));
         adj[v].push_back(make_pair(u,w));
     }
-    vector<int> dist(vertices);
-    for(int i=0;i<vertices;i++){
-        dist[i] = INT_MAX;
-    }
+    vector<int> dist(vertices, INT_MAX);
     //set for short distance track 
     set<pair<int,int>> st;
     //pair is order (distance,node)
